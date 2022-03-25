@@ -1,0 +1,34 @@
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
+project(example-app)
+
+# include_directories( include )
+
+set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -fopenmp " )
+set( CMAKE_CXX_FLAGS_DEBUG "-g -std=c++14 -Wall -fopenmp" )
+message( "Linux settings chosen..." )
+
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+find_package(Torch REQUIRED)
+
+find_package( OpenCV REQUIRED )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
+
+set(ncnn_DIR ${CMAKE_SOURCE_DIR}/include/ncnn-20220216-ubuntu-2004/lib/cmake/ncnn)
+find_package(ncnn REQUIRED)
+
+file ( GLOB SOURCES "./src/*.cpp" "./include/*.h" )
+
+add_executable( ${PROJECT_NAME} ${SOURCES} )
+
+target_link_libraries(example-app ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
+set_property(TARGET example-app PROPERTY CXX_STANDARD 14)
+
+if (MSVC)
+  file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
+  add_custom_command(TARGET example-app
+                     POST_BUILD
+                     COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                     ${TORCH_DLLS}
+                     $<TARGET_FILE_DIR:example-app>)
+endif (MSVC)
