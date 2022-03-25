@@ -1,4 +1,4 @@
-# Cpp-Computer-Vision-Tutorial
+# C++ Computer Vision Tutorial
 Computer vision tutorial for installing and using PyTorch, OpenCV and NCNN in C++.
 
 # Installation
