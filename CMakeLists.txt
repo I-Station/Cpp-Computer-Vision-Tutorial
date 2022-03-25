@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(example-app)
+project(istation)
 
 # include_directories( include )
 
@@ -21,14 +21,14 @@ file ( GLOB SOURCES "./src/*.cpp" "./include/*.h" )
 
 add_executable( ${PROJECT_NAME} ${SOURCES} )
 
-target_link_libraries(example-app ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
-set_property(TARGET example-app PROPERTY CXX_STANDARD 14)
+target_link_libraries(istation ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
+set_property(TARGET istation PROPERTY CXX_STANDARD 14)
 
 if (MSVC)
   file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
-  add_custom_command(TARGET example-app
+  add_custom_command(TARGET istation
                      POST_BUILD
                      COMMAND ${CMAKE_COMMAND} -E copy_if_different
                      ${TORCH_DLLS}
-                     $<TARGET_FILE_DIR:example-app>)
+                     $<TARGET_FILE_DIR:istation>)
 endif (MSVC)
