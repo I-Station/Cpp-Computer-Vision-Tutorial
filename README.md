@@ -148,6 +148,11 @@ Now we have `.param` and `.bin` files. We can write code with these informations
 ```
 ./ncnnoptimize ../../../utils/R50.param ../../../utils/R50.bin ../../../utils/R50-Optimized.param ../../../utils/R50-Optimized.bin 65536
 ```
+We are going to move our models to `build` folder.
+```
+mv utils/R50-Optimized.bin build/Models/
+mv utils/R50-Optimized.param build/Models/
+```
 Now everything ready to implement our codes. There is and example in `src/main.cpp`
 
 
