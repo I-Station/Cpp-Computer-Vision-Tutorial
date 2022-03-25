@@ -83,6 +83,13 @@ if (MSVC)
                      $<TARGET_FILE_DIR:example-app>)
 endif (MSVC)
 ```
+Last step as shown in below to prepare PyTorch.
+```
+mkdir build
+cd build
+cmake -DCMAKE_PREFIX_PATH=include/libtorch ..
+cmake --build . --config Release
+```
 
 ## ncnn
 [ncnn](https://github.com/Tencent/ncnn) is a high-performance neural network inference computing framework optimized for mobile platforms. ncnn is deeply considerate about deployment and uses on mobile phones from the beginning of design.
@@ -100,3 +107,48 @@ find_package(ncnn REQUIRED)
 
 target_link_libraries(example-app ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
 ```
+
+## Others
+### OnnxSimplifier
+[ONNX Simplifier](https://github.com/daquexian/onnx-simplifier) is presented to simplify the ONNX model. It infers the whole computation graph and then replaces the redundant operators with their constant outputs.
+
+Clone repository and place it to your base folder.
+```
+https://github.com/daquexian/onnx-simplifier
+```
+
+# Usage Examples
+## PyTorch2Onnx2NCNN for Using Networks
+We are going to give an example from `torchvision.models.resnet50(pretrained=True)` but you can apply every other network that you customized. (Check ncnn and Onnx supported layers)
+
+```
+# Check `pytorch2onnx2ncnn.py` setup for modifications
+cd utils/
+python pytorch2onnx2ncnn.py
+```
+Expected output `R50.onnx` (if not changed save path) will be written to `utils/`. It is time to simplify model.
+**(This is optional you do not need to do this if not necessary)**
+```
+cd ../onnx-simplifier/
+python -m onnxsim ../utils/R50.onnx ../utils/R50-Simplified.onnx
+
+## Expected Output
+Simplifying...
+Ok!
+```
+Now `.onnx` model can be converted to the `ncnn`.
+```
+cd ../include/ncnn-20220216-ubuntu-2004/bin/
+./onnx2ncnn ../../../utils/R50-Simplified.onnx ../../../utils/R50.param ../../../utils/R50.bin
+```
+Now we have `.param` and `.bin` files. We can write code with these informations but there are one more step to optimize networks.
+**(This is optional you do not need to do this if not necessary)**
+- **Network size before optimize --> 102.1 MB** 
+- **Network size after optimize --> 51.1 MB**
+```
+./ncnnoptimize ../../../utils/R50.param ../../../utils/R50.bin ../../../utils/R50-Optimized.param ../../../utils/R50-Optimized.bin 65536
+```
+Now everything ready to implement our codes. There is and example in `src/main.cpp`
+
+
+## PyTorch2Cpp for Using Networks
