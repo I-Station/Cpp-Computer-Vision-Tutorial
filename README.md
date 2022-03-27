@@ -153,7 +153,23 @@ We are going to move our models to `build` folder.
 mv utils/R50-Optimized.bin build/Models/
 mv utils/R50-Optimized.param build/Models/
 ```
-Now everything ready to implement our codes. There is and example in `src/main.cpp`
-
+Layers can be inspected from [netron.app](https://netron.app/) if necessary. Now everything ready to implement our codes. There is and example in `src/main.cpp`
 
 ## PyTorch2Cpp for Using Networks
+We are going to give an example from `torchvision.models.resnet50(pretrained=True)` but you can apply every other network that you customized. (Check ncnn and Onnx supported layers)
+```
+# Check `pytorch2script.py` setup for modifications
+cd utils/
+python pytorch2script.py
+
+mv R50.pt ../build/Models/
+```
+Expected output `R50.pt` (if not changed save path) will be written to `utils/`. It is time to simplify model. This `.pt` file is ready to use in your implementation. For details check `src/main.cpp --> pytorch2script` function.
+
+## Recommended Extensions (Visual Studio Code)
+```
+CMake
+CMake Tools
+C/C++
+C/C++ Extension Pack
+```
