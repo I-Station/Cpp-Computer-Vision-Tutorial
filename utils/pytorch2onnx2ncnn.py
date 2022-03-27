@@ -1,5 +1,3 @@
-import argparse
-
 import torch
 import torch.onnx
 import torchvision
