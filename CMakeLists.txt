@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(istation)
 
-# include_directories( include )
+include_directories( include )
 
 set( CMAKE_CXX_FLAGS "-std=c++14 -Wall -fopenmp " )
 set( CMAKE_CXX_FLAGS_DEBUG "-g -std=c++14 -Wall -fopenmp" )
@@ -21,7 +21,8 @@ file ( GLOB SOURCES "./src/*.cpp" "./include/*.h" )
 
 add_executable( ${PROJECT_NAME} ${SOURCES} )
 
-target_link_libraries(istation ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
+# target_link_libraries(istation ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
+target_link_libraries(istation ${OpenCV_LIBS} ncnn ${TORCH_LIBRARIES})
 set_property(TARGET istation PROPERTY CXX_STANDARD 14)
 
 if (MSVC)
