@@ -46,7 +46,7 @@ Then add commands that given below will be include OpenCV library in your codeba
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-target_link_libraries(example-app ${OpenCV_LIBS})
+target_link_libraries(istation ${OpenCV_LIBS})
 ```
 
 ## PyTorch
@@ -61,26 +61,26 @@ mv libtorch include/
 rm -r libtorch-shared-with-deps-latest.zip
 ```
 
-Then properties of library will be added to `CMakeLists.txt` manually. `example-app` will be your project name. Example of only using libtorch in C++, `CMakeLists.txt` as shown in below.
+Then properties of library will be added to `CMakeLists.txt` manually. `istation` will be your project name. Example of only using libtorch in C++, `CMakeLists.txt` as shown in below.
 
 ```
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
-project(example-app)
+project(istation)
 
 find_package(Torch REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 
-add_executable(example-app example-app.cpp)
-target_link_libraries(example-app "${TORCH_LIBRARIES}")
-set_property(TARGET example-app PROPERTY CXX_STANDARD 14)
+add_executable(istation main.cpp)
+target_link_libraries(istation "${TORCH_LIBRARIES}")
+set_property(TARGET istation PROPERTY CXX_STANDARD 14)
 
 if (MSVC)
   file(GLOB TORCH_DLLS "${TORCH_INSTALL_PREFIX}/lib/*.dll")
-  add_custom_command(TARGET example-app
+  add_custom_command(TARGET istation
                      POST_BUILD
                      COMMAND ${CMAKE_COMMAND} -E copy_if_different
                      ${TORCH_DLLS}
-                     $<TARGET_FILE_DIR:example-app>)
+                     $<TARGET_FILE_DIR:istation>)
 endif (MSVC)
 ```
 Last step as shown in below to prepare PyTorch.
@@ -105,7 +105,7 @@ Then, add required to `CMakeLists.txt`.
 set(ncnn_DIR ${CMAKE_SOURCE_DIR}/include/ncnn-20220216-ubuntu-2004/lib/cmake/ncnn)
 find_package(ncnn REQUIRED)
 
-target_link_libraries(example-app ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
+target_link_libraries(istation ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
 ```
 
 ## Others
