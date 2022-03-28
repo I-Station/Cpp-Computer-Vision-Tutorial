@@ -173,3 +173,11 @@ CMake Tools
 C/C++
 C/C++ Extension Pack
 ```
+
+## References
+- [OpenCV C++](https://opencv.org/)
+- [PyTorch C++](https://pytorch.org/cppdocs/installing.html)
+- [ncnn](https://github.com/Tencent/ncnn)
+- [Onnx](https://onnx.ai/)
+- [OnnxSimplifer](https://github.com/daquexian/onnx-simplifier)
+- [netron.app](https://netron.app/)
