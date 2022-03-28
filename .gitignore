@@ -1,5 +1,7 @@
 build/
 include/
+ncnn/
+onnx-simplifier/
 
 *.onnx
 *.bin
