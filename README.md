@@ -41,7 +41,7 @@ pkg-config --modversion opencv4
 # Expected Output
 4.4.0
 ```
-Then add commands that given below will be include OpenCV library in your codebase.
+Then add commands that given below will be include OpenCV library to `CMakeLists.txt`.
 ```
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
@@ -83,7 +83,7 @@ if (MSVC)
                      $<TARGET_FILE_DIR:istation>)
 endif (MSVC)
 ```
-Last step as shown in below to prepare PyTorch.
+Last step as shown in below to prepare PyTorch in `terminal` that on your codebase path.
 ```
 mkdir build
 cd build
@@ -107,7 +107,7 @@ find_package(ncnn REQUIRED)
 
 target_link_libraries(istation ${TORCH_LIBRARIES} ${OpenCV_LIBS} ncnn)
 ```
-
+**Prepared `CMakeLists.txt` includes all the requirements!**
 ## Others
 ### OnnxSimplifier
 [ONNX Simplifier](https://github.com/daquexian/onnx-simplifier) is presented to simplify the ONNX model. It infers the whole computation graph and then replaces the redundant operators with their constant outputs.
